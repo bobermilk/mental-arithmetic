@@ -5,5 +5,5 @@ app=Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def main():
     if request.method == "POST":
-        return render_template("game.html", data=request.form)
-    return render_template("index.html")
+        return render_template("arithmeticgame.html", data=request.form)
+    return render_template("arithmetic.html")
