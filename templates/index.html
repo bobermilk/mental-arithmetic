@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div>
+    <form method="post">
+        <p>Range of a (<input type="text" name="a_min" id="range_input" value="2"> to <input type="text" name="a_max" id="range_input" value="100">)</p>
+        <p>Range of b (<input type="text" name="b_min" id="range_input" value="2"> to <input type="text" name="b_max" id="range_input" value="100">)</p>
+            <dl>
+            <dt>
+                <label>
+                <input checked="" name="add" type="checkbox">
+                Addition (a+b)
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="subtract" type="checkbox">
+                Subtraction (a-b)
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="multiply" type="checkbox">
+                Multiplication (a×b)
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="divide" type="checkbox">
+                Division (a÷b)
+                </label>
+            </dt>
+            <br>
+            <br>
+            <!-- the rest goes here -->
+            <p>
+            Duration:
+            <select name="duration">
+                <option value="30">30 seconds</option>
+                <option value="60">60 seconds</option>
+                <option selected="" value="120">120 seconds</option>
+                <option value="300">300 seconds</option>
+                <option value="600">600 seconds</option>
+            </select>
+            </p>
+            <input type="submit" value="Start">
+        </form>
+        </div>
+</body>

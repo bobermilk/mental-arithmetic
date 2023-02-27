@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script>
+    // range is inclusive
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    let add = (a, b) => a+b;
+    let subtract = (a, b) => a-b;
+    let multiply = (a, b) => a*b;
+    let divide = (a, b) => a/b;
+    var a_min, a_max, b_min, b_max, duration, modes;
+    const sign_map= {
+        "+":add,
+        "-":subtract,
+        "×":multiply,
+        "÷":divide
+    };
+    function load_data(data){
+        a_min=data["a_min"];
+        a_max=data["a_max"];
+        b_min=data["b_min"];
+        b_max=data["b_max"];
+        duration=parseInt(data["duration"]);
+        modes=[];
+
+        if (data["add"]=="on"){
+            modes.push(sign_map["+"]);
+        }
+        if(data["subtract"]=="on"){
+            modes.push(sign_map["-"]);
+        }
+        if(data["multiply"]=="on"){
+            modes.push(sign_map["×"]);
+        }
+        if(data["divide"=="on"]){
+            modes.push(sign_map["÷"]);
+        }
+    }
+
+    var a, b, answer, score=0;
+    function generate_question(){
+        a=0;
+        b=0;
+        while(a==b){
+            a=getRandomInt(a_min, a_max);
+            b=getRandomInt(b_min, b_max);
+        }
+        if(a<b){
+            //swap the values
+            b=[a, a = b][0];
+        }
+        var keys=Object.keys(sign_map);
+        var sign=keys[Math.floor(keys.length * Math.random())];
+        if(sign=="÷"){
+            // ensure divisibility
+            a=a-(a%b);
+        }
+        answer=sign_map[sign](a, b);
+        console.log(a+" "+sign+" "+b+" = ");
+        document.getElementById("question").innerHTML=a+" "+sign+" "+b+" = ";
+    }
+
+    function show_results() {
+        document.body.innerHTML="<h1 class='main'>Score: "+score+"</h1>";
+    }
+
+</script>
+<script>
+    load_data({{data|tojson}});
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("answer").addEventListener("focusout", (event) => {document.getElementById("answer").focus()});
+        generate_question();
+    });
+</script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="inline">
+            <span id="question" class="question">2 x 2
+            = </span>
+            <input id="answer" class="answer" autofocus>
+        </div>
+    </div>
+    <script>
+        document.getElementById("answer").addEventListener('input', function (evt) {
+            if(parseInt(this.value)==answer){
+                if(score==0){
+                    //after the first input
+                    setTimeout( function() { show_results(); }, duration*1000);
+                }
+                score+=1;
+                generate_question();
+                this.value="";
+            }
+        });
+    </script>
+</body>

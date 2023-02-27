@@ -1,0 +1,28 @@
+body{
+    font: 18px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+.inline{
+    display:inline;
+}
+#range_input {
+    font-size: 26px;
+    font-family: inherit;
+}
+.question {
+    font-size: 36px;
+    font-family: inherit;
+}
+.answer {
+    font-size: 36px;
+    font-family: inherit;
+    width: 180px
+}
