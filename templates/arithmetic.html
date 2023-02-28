@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
     <div>
@@ -11,25 +12,55 @@
             <dt>
                 <label>
                 <input checked="" name="add" type="checkbox">
-                Addition (a+b)
+                <div style="display: inline-block;">$$a+b$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
                 <input checked="" name="subtract" type="checkbox">
-                Subtraction (a-b)
+                <div style="display: inline-block;">$$a-b$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
                 <input checked="" name="multiply" type="checkbox">
-                Multiplication (a×b)
+                <div style="display: inline-block;">$$a\times b$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
                 <input checked="" name="divide" type="checkbox">
-                Division (a÷b)
+                <div style="display: inline-block;">$$a\div b$$</div>
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="average" type="checkbox">
+                <div style="display: inline-block;">$$\dfrac{a+b}{2}$$</div>
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="exponent" type="checkbox">
+                <div style="display: inline-block;">$$a^b$$</div>
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="pythagorean" type="checkbox">
+                <div style="display: inline-block;">$$\sqrt{a^2+b^2}$$</div>
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="floor division" type="checkbox">
+                <div style="display: inline-block;">$$\left\lfloor\dfrac{a}{b}\right\rfloor$$</div>
+                </label>
+            </dt>
+            <dt>
+                <label>
+                <input checked="" name="mod" type="checkbox">
+                <div style="display: inline-block;">$$a\bmod b$$</div>
                 </label>
             </dt>
             <br>

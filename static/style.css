@@ -20,6 +20,7 @@ body{
 .question {
     font-size: 36px;
     font-family: inherit;
+    display:inline-block;
 }
 .answer {
     font-size: 36px;

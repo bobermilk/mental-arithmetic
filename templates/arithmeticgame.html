@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <script>
     // range is inclusive
@@ -66,7 +67,15 @@
             b=factors[getRandomInt(0, factors.length-1)];
         }
         answer=sign_map[sign](a, b);
-        question_text.innerHTML=a+" "+sign+" "+b+" = ";
+        question_text.innerHTML = '';
+        // https://mathjax.github.io/MathJax-demos-web/
+        MathJax.texReset();
+        var options = MathJax.getMetricsFor(question_text);
+        MathJax.tex2chtmlPromise(a+" "+sign + b + " = ", options).then(function (node) {
+        question_text.appendChild(node);
+        MathJax.startup.document.clear();
+        MathJax.startup.document.updateDocument();
+      })
     }
 
     function update_timer() {
