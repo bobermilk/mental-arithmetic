@@ -26,3 +26,14 @@ body{
     font-family: inherit;
     width: 180px
 }
+.left {
+    left: 20px;
+    top: 20px;
+    position: absolute;
+}
+
+.score {
+    right: 20px;
+    top: 20px;
+    position: absolute;
+}

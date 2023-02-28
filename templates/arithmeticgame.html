@@ -12,6 +12,8 @@
     let subtract = (a, b) => a-b;
     let multiply = (a, b) => a*b;
     let divide = (a, b) => a/b;
+    let factorize = (number, b_min, b_max) => [...Array(number + 1).keys()].filter(i=>number % i === 0 && b_min<=i<=b_max && i!=number && i!=1);
+
     var a_min, a_max, b_min, b_max, duration, modes;
     const sign_map= {
         "+":add,
@@ -28,16 +30,16 @@
         modes=[];
 
         if (data["add"]=="on"){
-            modes.push(sign_map["+"]);
+            modes.push("+");
         }
         if(data["subtract"]=="on"){
-            modes.push(sign_map["-"]);
+            modes.push("-");
         }
         if(data["multiply"]=="on"){
-            modes.push(sign_map["×"]);
+            modes.push("×");
         }
-        if(data["divide"=="on"]){
-            modes.push(sign_map["÷"]);
+        if(data["divide"]=="on"){
+            modes.push("÷");
         }
     }
 
@@ -53,37 +55,54 @@
             //swap the values
             b=[a, a = b][0];
         }
-        var keys=Object.keys(sign_map);
-        var sign=keys[Math.floor(keys.length * Math.random())];
+        var sign=modes[Math.floor(modes.length * Math.random())];
         if(sign=="÷"){
             // ensure divisibility
-            a=a-(a%b);
+            var factors=[]
+            while(factors.length==0){
+                a=getRandomInt(a_min, a_max)
+                factors=factorize(a, b_min, b_max);
+            }
+            b=factors[getRandomInt(0, factors.length-1)];
         }
         answer=sign_map[sign](a, b);
-        console.log(a+" "+sign+" "+b+" = ");
-        document.getElementById("question").innerHTML=a+" "+sign+" "+b+" = ";
+        question_text.innerHTML=a+" "+sign+" "+b+" = ";
     }
 
-    function show_results() {
-        document.body.innerHTML="<h1 class='main'>Score: "+score+"</h1>";
+    function update_timer() {
+        if(duration==0){
+            document.body.innerHTML="<h1 class='main'>Score: "+score+"</h1>";
+        }
+        duration--;
+        timer_text.innerHTML="Seconds left: "+duration;
     }
 
 </script>
 <script>
-    load_data({{data|tojson}});
+    var timer_text, score_text, question_text;
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("answer").addEventListener("focusout", (event) => {document.getElementById("answer").focus()});
+        score_text=document.getElementById("score");
+        timer_text=document.getElementById("timer");
+        question_text=document.getElementById("question");
         generate_question();
+        timer_text.innerHTML="Seconds left: "+duration;
     });
+</script>
+<script>
+    load_data({{data|tojson}});
 </script>
 </head>
 
 <body>
-    <div class="main">
-        <div class="inline">
-            <span id="question" class="question">2 x 2
-            = </span>
-            <input id="answer" class="answer" autofocus>
+    <div>
+        <span class="left" id="timer"></span>
+        <span class="score" id="score">Score: 0</span>
+        <div class="main">
+            <div class="inline">
+                <span id="question" class="question">bruh select a mode </span>
+                <input id="answer" class="answer" autofocus>
+            </div>
         </div>
     </div>
     <script>
@@ -91,9 +110,10 @@
             if(parseInt(this.value)==answer){
                 if(score==0){
                     //after the first input
-                    setTimeout( function() { show_results(); }, duration*1000);
+                    setInterval( function() { update_timer(); }, 1000);
                 }
                 score+=1;
+                score_text.innerHTML="Score: "+score;
                 generate_question();
                 this.value="";
             }
