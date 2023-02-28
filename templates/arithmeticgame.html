@@ -16,7 +16,7 @@
     let factorize = (number, b_min, b_max) => [...Array(number + 1).keys()].filter(i=>number % i === 0 && b_min<=i<=b_max && i!=number && i!=1);
 
     var a_min, a_max, b_min, b_max, duration, modes;
-    const sign_map= {
+    const operation_map= {
         "+":add,
         "-":subtract,
         "×":multiply,
@@ -31,16 +31,31 @@
         modes=[];
 
         if (data["add"]=="on"){
-            modes.push("+");
+            modes.push("$$a+b$$");
         }
         if(data["subtract"]=="on"){
-            modes.push("-");
+            modes.push("$$a-b$$");
         }
         if(data["multiply"]=="on"){
-            modes.push("×");
+            modes.push("$$a\times b$$");
         }
         if(data["divide"]=="on"){
-            modes.push("÷");
+            modes.push("$$a\div b$$");
+        }
+        if(data["average"]=="on"){
+            modes.push("$$\dfrac{a+b}{2}$$");
+        }
+        if(data["exponent"]=="on"){
+            modes.push("$$a^b$$");
+        }
+        if(data["pythagorean"]=="on"){
+            modes.push("$$\sqrt{a^2+b^2}$$");
+        }
+        if(data["floor division"]=="on"){
+            modes.push("$$\left\lfloor\dfrac{a}{b}\right\rfloor$$");
+        }
+        if(data["mod"]=="on"){
+            modes.push("$$a\bmod b$$");
         }
     }
 
@@ -56,8 +71,8 @@
             //swap the values
             b=[a, a = b][0];
         }
-        var sign=modes[Math.floor(modes.length * Math.random())];
-        if(sign=="÷"){
+        var operation=modes[Math.floor(modes.length * Math.random())];
+        if(operation=="$$a\div b$$"){
             // ensure divisibility
             var factors=[]
             while(factors.length==0){
@@ -66,12 +81,12 @@
             }
             b=factors[getRandomInt(0, factors.length-1)];
         }
-        answer=sign_map[sign](a, b);
+        answer=operation_map[sign](a, b);
         question_text.innerHTML = '';
         // https://mathjax.github.io/MathJax-demos-web/
         MathJax.texReset();
         var options = MathJax.getMetricsFor(question_text);
-        MathJax.tex2chtmlPromise(a+" "+sign + b + " = ", options).then(function (node) {
+        MathJax.tex2chtmlPromise(a+" "+operation + b + " = ", options).then(function (node) {
         question_text.appendChild(node);
         MathJax.startup.document.clear();
         MathJax.startup.document.updateDocument();
