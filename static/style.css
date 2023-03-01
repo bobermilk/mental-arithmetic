@@ -3,6 +3,10 @@ body{
     margin: 0;
     padding: 0;
 }
+.createroom {
+    width:fit-content;
+    margin: auto;
+}
 .main{
     display: flex;
     justify-content: center;
