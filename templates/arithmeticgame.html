@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <head>
-	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<script>
+        {% if game is defined %}
+        window.history.replaceState(null, null, "?game={{game}}");
+        {% endif %}
 		var all_pythagorean_triplets = [];
-
 		function pythagoreanTriplets(n) {
 			for (var a = 1; a < n - 1; a++) {
 				for (var b = a; b < n; b++) {
@@ -84,6 +86,16 @@
 			if (data["mod"] == "on") {
 				modes.push("a1\\bmod b1");
 			}
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("answer").addEventListener("focusout", (event) => {
+                    document.getElementById("answer").focus()
+                });
+                score_text = document.getElementById("score");
+                timer_text = document.getElementById("timer");
+                question_text = document.getElementById("question");
+                generate_question();
+                timer_text.innerHTML = "Seconds left: " + duration;
+            });
 		}
 		var a, b, answer, score = 0;
 
@@ -141,18 +153,8 @@
 		}
 	</script>
 	<script>
-		load_data({{data|tojson}});
 		var timer_text, score_text, question_text;
-		document.addEventListener("DOMContentLoaded", function() {
-			document.getElementById("answer").addEventListener("focusout", (event) => {
-				document.getElementById("answer").focus()
-			});
-			score_text = document.getElementById("score");
-			timer_text = document.getElementById("timer");
-			question_text = document.getElementById("question");
-			generate_question();
-			timer_text.innerHTML = "Seconds left: " + duration;
-		});
+		load_data({{data|tojson}});
 	</script>
 </head>
 <body>
