@@ -4,11 +4,11 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
-    <div>
+    <div style="padding: 21px;">
     <form method="post">
         <p>Range of a (<input type="text" name="a_min" id="range_input" value="2"> to <input type="text" name="a_max" id="range_input" value="100">)</p>
         <p>Range of b (<input type="text" name="b_min" id="range_input" value="2"> to <input type="text" name="b_max" id="range_input" value="100">)</p>
-            <dl>
+            <dl style="display: inline-block;">
             <dt>
                 <label>
                 <input checked="" name="add" type="checkbox">
@@ -35,36 +35,38 @@
             </dt>
             <dt>
                 <label>
-                <input checked="" name="average" type="checkbox">
+                <input name="average" type="checkbox">
                 <div style="display: inline-block;">$$\dfrac{a+b}{2}$$</div>
                 </label>
             </dt>
+            </dl>
+            <dl style="display: inline-block; margin-left: 36px";">
+                
             <dt>
                 <label>
-                <input checked="" name="exponent" type="checkbox">
+                <input name="exponent" type="checkbox">
                 <div style="display: inline-block;">$$a^b$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
-                <input checked="" name="pythagorean" type="checkbox">
+                <input name="pythagorean" type="checkbox">
                 <div style="display: inline-block;">$$\sqrt{a^2+b^2}$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
-                <input checked="" name="floor division" type="checkbox">
+                <input name="floor division" type="checkbox">
                 <div style="display: inline-block;">$$\left\lfloor\dfrac{a}{b}\right\rfloor$$</div>
                 </label>
             </dt>
             <dt>
                 <label>
-                <input checked="" name="mod" type="checkbox">
+                <input name="mod" type="checkbox">
                 <div style="display: inline-block;">$$a\bmod b$$</div>
                 </label>
             </dt>
-            <br>
-            <br>
+            </dl>
             <!-- the rest goes here -->
             <p>
             Duration:
