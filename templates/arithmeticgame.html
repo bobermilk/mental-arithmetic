@@ -141,6 +141,7 @@
 		}
 	</script>
 	<script>
+		load_data({{data|tojson}});
 		var timer_text, score_text, question_text;
 		document.addEventListener("DOMContentLoaded", function() {
 			document.getElementById("answer").addEventListener("focusout", (event) => {
@@ -152,9 +153,6 @@
 			generate_question();
 			timer_text.innerHTML = "Seconds left: " + duration;
 		});
-	</script>
-	<script>
-		load_data({{data|tojson}});
 	</script>
 </head>
 <body>
