@@ -1,94 +1,136 @@
 <!DOCTYPE html>
 <head>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
-    <div style="padding: 21px;">
-    <form method="post">
-        <p>Game seed: <input type="text" name="seed" id="seed"></p>
-        <p>Range of a: (<input type="text" name="a_min" id="range_input" value="2"> to <input type="text" name="a_max" id="range_input" value="100">)</p>
-        <p>Range of b: (<input type="text" name="b_min" id="range_input" value="2"> to <input type="text" name="b_max" id="range_input" value="100">)</p>
-            <dl style="display: inline-block;">
-            <dt>
-                <label>
-                <input checked="" name="add" type="checkbox">
-                <div style="display: inline-block;">$$a+b$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input checked="" name="subtract" type="checkbox">
-                <div style="display: inline-block;">$$a-b$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input checked="" name="multiply" type="checkbox">
-                <div style="display: inline-block;">$$a\times b$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input checked="" name="divide" type="checkbox">
-                <div style="display: inline-block;">$$a\div b$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input name="average" type="checkbox">
-                <div style="display: inline-block;">$$\dfrac{a+b}{2}$$</div>
-                </label>
-            </dt>
-            </dl>
-            <dl style="display: inline-block; margin-left: 36px";">
-                
-            <dt>
-                <label>
-                <input name="exponent" type="checkbox">
-                <div style="display: inline-block;">$$a^b$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input name="pythagorean" type="checkbox">
-                <div style="display: inline-block;">$$\sqrt{a^2+b^2}$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input name="floor division" type="checkbox">
-                <div style="display: inline-block;">$$\left\lfloor\dfrac{a}{b}\right\rfloor$$</div>
-                </label>
-            </dt>
-            <dt>
-                <label>
-                <input name="mod" type="checkbox">
-                <div style="display: inline-block;">$$a\bmod b$$</div>
-                </label>
-            </dt>
-            </dl>
-            <dl style="display: inline-block; margin-left: 80px";">
-                <p>Click on sylveon to start!</p>
-                <input type="image" alt="submit" style="width:250px; height:250px;" src="https://cdn.discordapp.com/attachments/1054367691349180547/1080310961497440298/sylveon.png">
-            </dl>
-            <!-- the rest goes here -->
-            <p>
-            Duration:
-            <select name="duration">
-                <option value="30">30 seconds</option>
-                <option value="60">60 seconds</option>
-                <option selected="" value="120">120 seconds</option>
-                <option value="300">300 seconds</option>
-                <option value="600">600 seconds</option>
-            </select>
-            </p>
-        </form>
-        </div>
+	<div style="padding: 21px;">
+		<form method="post">
+			<p>Game seed: <input type="text" name="seed" id="seed" maxlength="10">
+			</p>
+			<section class="range-slider">
+                range of a is 
+				<span class="rangeValues"></span>
+				<input name="a_min" value="2" min="2" max="10000" step="1" type="range">
+				<input name="a_max" value="1000" min="2" max="10000" step="1" type="range">
+			</section>
+            <br>
+			<section class="range-slider">
+                range of b is 
+				<span class="rangeValues"></span>
+				<input name="b_min" value="2" min="2" max="10000" step="1" type="range">
+				<input name="b_max" value="1000" min="2" max="10000" step="1" type="range">
+			</section>
+			<dl style="display: inline-block;">
+				<dt>
+					<label>
+						<input checked="" name="add" type="checkbox">
+						<div style="display: inline-block;">$$a+b$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input checked="" name="subtract" type="checkbox">
+						<div style="display: inline-block;">$$a-b$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input checked="" name="multiply" type="checkbox">
+						<div style="display: inline-block;">$$a\times b$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input checked="" name="divide" type="checkbox">
+						<div style="display: inline-block;">$$a\div b$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input name="average" type="checkbox">
+						<div style="display: inline-block;">$$\dfrac{a+b}{2}$$</div>
+					</label>
+				</dt>
+			</dl>
+			<dl style="display: inline-block; margin-left: 36px" ;">
+				<dt>
+					<label>
+						<input name="exponent" type="checkbox">
+						<div style="display: inline-block;">$$a^b$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input name="pythagorean" type="checkbox">
+						<div style="display: inline-block;">$$\sqrt{a^2+b^2}$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input name="floor division" type="checkbox">
+						<div style="display: inline-block;">$$\left\lfloor\dfrac{a}{b}\right\rfloor$$</div>
+					</label>
+				</dt>
+				<dt>
+					<label>
+						<input name="mod" type="checkbox">
+						<div style="display: inline-block;">$$a\bmod b$$</div>
+					</label>
+				</dt>
+			</dl>
+			<dl style="display: inline-block; margin-left: 80px" ;">
+				<p>Click on sylveon to start!</p>
+				<input type="image" alt="submit" style="width:250px; height:250px;" src="https://cdn.discordapp.com/attachments/1054367691349180547/1080310961497440298/sylveon.png">
+			</dl>
+			<!-- the rest goes here -->
+			<p> Duration: <select name="duration">
+					<option value="30">30 seconds</option>
+					<option value="60">60 seconds</option>
+					<option selected="" value="120">120 seconds</option>
+					<option value="300">300 seconds</option>
+					<option value="600">600 seconds</option>
+				</select>
+			</p>
+		</form>
+	</div>
+	<script>
+		const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+		document.getElementById("seed").value = genRanHex(8);
 
-    <script>
-        document.getElementById("seed").value=Math.random();
-    </script>
+		function getVals() {
+			// Get slider values
+			var parent = this.parentNode;
+			var slides = parent.getElementsByTagName("input");
+			var slide1 = parseFloat(slides[0].value);
+			var slide2 = parseFloat(slides[1].value);
+			// Neither slider will clip the other, so make sure we determine which is larger
+			if (slide1 > slide2) {
+				var tmp = slide2;
+				slide2 = slide1;
+				slide1 = tmp;
+			}
+			if (slide1 == slide2) {
+				slides[1].value = slide2 + 1;
+				slide2 = parseFloat(slides[1].value);
+			}
+			var displayElement = parent.getElementsByClassName("rangeValues")[0];
+			displayElement.innerHTML = slide1 + " - " + slide2;
+		}
+		window.onload = function() {
+			// Initialize Sliders
+			var sliderSections = document.getElementsByClassName("range-slider");
+			for (var x = 0; x < sliderSections.length; x++) {
+				var sliders = sliderSections[x].getElementsByTagName("input");
+				for (var y = 0; y < sliders.length; y++) {
+					if (sliders[y].type === "range") {
+						sliders[y].oninput = getVals;
+						// Manually trigger event first time to display values
+						sliders[y].oninput();
+					}
+				}
+			}
+		}
+	</script>
 </body>

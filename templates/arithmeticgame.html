@@ -1,187 +1,187 @@
 <!DOCTYPE html>
 <head>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
-</script>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script>
+		var all_pythagorean_triplets = [];
 
-<script>
-    var all_pythagorean_triplets=[];
-    function pythagoreanTriplets(n){
-        for (var a=1; a<n-1; a++){
-            for (var b=a; b<n; b++){
-                c = Math.sqrt(a * a + b * b);
-                if (c%1 === 0) {
-                    all_pythagorean_triplets.push([a,b,c])
-                }
-            }
-        }
-    }
-    var seed, rng;
-    // range is inclusive
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(rng() * (max - min + 1)) + min;
-    }
-    let add = (a, b) => a+b;
-    let subtract = (a, b) => a-b;
-    let multiply = (a, b) => a*b;
-    let divide = (a, b) => a/b;
-    let average = (a, b) => (a+b)/2;
-    let exponent = (a, b) => Math.pow(a, b);
-    let floor_divide = (a, b) => Math.floor(a/b);
-    let modp = (a, b) => a%b;
-    let pythagorean = (a, b) => all_pythagorean_triplets[Math.floor(all_pythagorean_triplets.length * Math.random())];
-    let factorize = (number, b_min, b_max) => [...Array(number + 1).keys()].filter(i=>number % i === 0 && b_min<=i<=b_max && i!=number && i!=1);
+		function pythagoreanTriplets(n) {
+			for (var a = 1; a < n - 1; a++) {
+				for (var b = a; b < n; b++) {
+					c = Math.sqrt(a * a + b * b);
+					if (c % 1 === 0) {
+						all_pythagorean_triplets.push([a, b, c])
+					}
+				}
+			}
+		}
+		var seed, rng;
+		// range is inclusive
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(rng() * (max - min + 1)) + min;
+		}
+		let add = (a, b) => a + b;
+		let subtract = (a, b) => a - b;
+		let multiply = (a, b) => a * b;
+		let divide = (a, b) => a / b;
+		let average = (a, b) => (a + b) / 2;
+		let exponent = (a, b) => Math.pow(a, b);
+		let floor_divide = (a, b) => Math.floor(a / b);
+		let modp = (a, b) => a % b;
+		let pythagorean = (a, b) => all_pythagorean_triplets[Math.floor(all_pythagorean_triplets.length * Math.random())];
+		let factorize = (number, b_min, b_max) => [...Array(number + 1).keys()].filter(i => number % i === 0 && b_min <= i <= b_max && i != number && i != 1);
+		var a_min, a_max, b_min, b_max, duration, modes;
+		const operation_map = {
+			"a1+b1": add,
+			"a1-b1": subtract,
+			"a1\\times b1": multiply,
+			"a1\\div b1": divide,
+			"\\dfrac{a1+b1}{2}": average,
+			"a1^{b1}": exponent,
+			"\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor": floor_divide,
+			"a1\\bmod b1": modp,
+			"\\sqrt{a1^2+b1^2}": pythagorean,
+		};
 
-    var a_min, a_max, b_min, b_max, duration, modes;
-    const operation_map= {
-        "a1+b1":add,
-        "a1-b1":subtract,
-        "a1\\times b1":multiply,
-        "a1\\div b1":divide,
-        "\\dfrac{a1+b1}{2}": average,
-        "a1^{b1}": exponent,
-        "\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor": floor_divide,
-        "a1\\bmod b1": modp,
-        "\\sqrt{a1^2+b1^2}":pythagorean,
-    };
-    function load_data(data){
-        seed=data["seed"];
-        rng=new Math.seedrandom(seed);
-        a_min=data["a_min"];
-        a_max=data["a_max"];
-        b_min=data["b_min"];
-        b_max=data["b_max"];
-        duration=parseInt(data["duration"]);
-        modes=[];
+		function load_data(data) {
+			seed = data["seed"];
+			rng = new Math.seedrandom(seed);
+			a_min = data["a_min"];
+			a_max = data["a_max"];
+			b_min = data["b_min"];
+			b_max = data["b_max"];
+			duration = parseInt(data["duration"]);
+			modes = [];
+			if (data["add"] == "on") {
+				modes.push("a1+b1");
+			}
+			if (data["subtract"] == "on") {
+				modes.push("a1-b1");
+			}
+			if (data["multiply"] == "on") {
+				modes.push("a1\\times b1");
+			}
+			if (data["divide"] == "on") {
+				modes.push("a1\\div b1");
+			}
+			if (data["average"] == "on") {
+				modes.push("\\dfrac{a1+b1}{2}");
+			}
+			if (data["exponent"] == "on") {
+				modes.push("a1^{b1}");
+			}
+			if (data["pythagorean"] == "on") {
+				modes.push("\\sqrt{a1^2+b1^2}");
+				// calculate all the Triplets in advanced
+				pythagoreanTriplets(Math.min(a_max, b_max));
+			}
+			if (data["floor division"] == "on") {
+				modes.push("\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor");
+			}
+			if (data["mod"] == "on") {
+				modes.push("a1\\bmod b1");
+			}
+		}
+		var a, b, answer, score = 0;
 
-        if (data["add"]=="on"){
-            modes.push("a1+b1");
-        }
-        if(data["subtract"]=="on"){
-            modes.push("a1-b1");
-        }
-        if(data["multiply"]=="on"){
-            modes.push("a1\\times b1");
-        }
-        if(data["divide"]=="on"){
-            modes.push("a1\\div b1");
-        }
-        if(data["average"]=="on"){
-            modes.push("\\dfrac{a1+b1}{2}");
-        }
-        if(data["exponent"]=="on"){
-            modes.push("a1^{b1}");
-        }
-        if(data["pythagorean"]=="on"){
-            modes.push("\\sqrt{a1^2+b1^2}");
-            // calculate all the Triplets in advanced
-            pythagoreanTriplets(Math.min(a_max, b_max));
-        }
-        if(data["floor division"]=="on"){
-            modes.push("\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor");
-        }
-        if(data["mod"]=="on"){
-            modes.push("a1\\bmod b1");
-        }
-    }
+		function generate_question() {
+			a = 0;
+			b = 0;
+			while (a == b) {
+				a = getRandomInt(a_min, a_max);
+				b = getRandomInt(b_min, b_max);
+			}
+			if (a < b) {
+				//swap the values
+				b = [a, a = b][0];
+			}
+			var operation = modes[Math.floor(modes.length * rng())];
+			if (operation == "a1\\div b1") {
+				// ensure divisibility
+				var factors = []
+				while (factors.length == 0) {
+					a = getRandomInt(a_min, a_max)
+					factors = factorize(a, b_min, b_max);
+				}
+				b = factors[getRandomInt(0, factors.length - 1)];
+			}
+			if (operation == "\\dfrac{a1+b1}{2}") {
+				if (a % 2 == 0 && b % 2 == 1 || a % 2 == 1 && b % 2 == 0) {
+					a--;
+				}
+			}
+			answer = operation_map[operation](a, b);
+			if (operation == "\\sqrt{a1^2+b1^2}") {
+				a = answer[0];
+				b = answer[1];
+				answer = answer[2];
+			}
+			question_text.innerHTML = '';
+			// https://mathjax.github.io/MathJax-demos-web/
+			MathJax.texReset();
+			var options = MathJax.getMetricsFor(question_text);
+			operation = operation.replace("a1", a.toString());
+			operation = operation.replace("b1", b.toString());
+			MathJax.tex2chtmlPromise(operation + "=", options).then(function(node) {
+				question_text.appendChild(node);
+				MathJax.startup.document.clear();
+				MathJax.startup.document.updateDocument();
+			})
+		}
 
-    var a, b, answer, score=0;
-    function generate_question(){
-        a=0;
-        b=0;
-        while(a==b){
-            a=getRandomInt(a_min, a_max);
-            b=getRandomInt(b_min, b_max);
-        }
-        if(a<b){
-            //swap the values
-            b=[a, a = b][0];
-        }
-        var operation=modes[Math.floor(modes.length * rng())];
-        if(operation=="a1\\div b1"){
-            // ensure divisibility
-            var factors=[]
-            while(factors.length==0){
-                a=getRandomInt(a_min, a_max)
-                factors=factorize(a, b_min, b_max);
-            }
-            b=factors[getRandomInt(0, factors.length-1)];
-        }
-        if(operation=="\\dfrac{a1+b1}{2}"){
-            if(a%2==0 && b%2==1 || a%2==1 && b%2==0){
-                a--;
-            }
-        }
-        answer=operation_map[operation](a, b);
-        if(operation=="\\sqrt{a1^2+b1^2}"){
-            a=answer[0];
-            b=answer[1];
-            answer=answer[2];
-        }
-        question_text.innerHTML = '';
-        // https://mathjax.github.io/MathJax-demos-web/
-        MathJax.texReset();
-        var options = MathJax.getMetricsFor(question_text);
-        operation=operation.replace("a1", a.toString());
-        operation=operation.replace("b1", b.toString());
-        MathJax.tex2chtmlPromise(operation+ "=", options).then(function (node) {
-        question_text.appendChild(node);
-        MathJax.startup.document.clear();
-        MathJax.startup.document.updateDocument();
-      })
-    }
-
-    function update_timer() {
-        if(duration==0){
-            document.body.innerHTML="<h1 class='main'>Score: "+score+"</h1>";
-        }
-        duration--;
-        timer_text.innerHTML="Seconds left: "+duration;
-    }
-
-</script>
-<script>
-    var timer_text, score_text, question_text;
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("answer").addEventListener("focusout", (event) => {document.getElementById("answer").focus()});
-        score_text=document.getElementById("score");
-        timer_text=document.getElementById("timer");
-        question_text=document.getElementById("question");
-        generate_question();
-        timer_text.innerHTML="Seconds left: "+duration;
-    });
-</script>
-<script>
-    load_data({{data|tojson}});
-</script>
+		function update_timer() {
+			if (duration == 0) {
+				document.body.innerHTML = " < h1 class = 'main' > Score: "+score+" < /h1>";
+			}
+			duration--;
+			timer_text.innerHTML = "Seconds left: " + duration;
+		}
+	</script>
+	<script>
+		var timer_text, score_text, question_text;
+		document.addEventListener("DOMContentLoaded", function() {
+			document.getElementById("answer").addEventListener("focusout", (event) => {
+				document.getElementById("answer").focus()
+			});
+			score_text = document.getElementById("score");
+			timer_text = document.getElementById("timer");
+			question_text = document.getElementById("question");
+			generate_question();
+			timer_text.innerHTML = "Seconds left: " + duration;
+		});
+	</script>
+	<script>
+		load_data({{data|tojson}});
+	</script>
 </head>
-
 <body>
-    <div>
-        <span class="left" id="timer"></span>
-        <span class="score" id="score">Score: 0</span>
-        <div class="main">
-            <div class="inline">
-                <span id="question" class="question">bruh select a mode </span>
-                <input id="answer" class="answer" autofocus>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.getElementById("answer").addEventListener('input', function (evt) {
-            if(parseInt(this.value)==answer){
-                if(score==0){
-                    //after the first input
-                    setInterval( function() { update_timer(); }, 1000);
-                }
-                score+=1;
-                score_text.innerHTML="Score: "+score;
-                generate_question();
-                this.value="";
-            }
-        });
-    </script>
+	<div>
+		<span class="left" id="timer"></span>
+		<span class="score" id="score">Score: 0</span>
+		<div class="main">
+			<div class="inline">
+				<span id="question" class="question">bruh select a mode </span>
+				<input id="answer" class="answer" autofocus>
+			</div>
+		</div>
+	</div>
+	<script>
+		document.getElementById("answer").addEventListener('input', function(evt) {
+			if (parseInt(this.value) == answer) {
+				if (score == 0) {
+					//after the first input
+					setInterval(function() {
+						update_timer();
+					}, 1000);
+				}
+				score += 1;
+				score_text.innerHTML = "Score: " + score;
+				generate_question();
+				this.value = "";
+			}
+		});
+	</script>
 </body>
