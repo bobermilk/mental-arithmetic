@@ -13,14 +13,22 @@
     let subtract = (a, b) => a-b;
     let multiply = (a, b) => a*b;
     let divide = (a, b) => a/b;
+    let average = (a, b) => (a+b)/2;
+    let exponent = (a, b) => Math.pow(a, b);
+    let floor_divide = (a, b) => Math.floor(a/b);
+    let modp = (a, b) => a%b;
     let factorize = (number, b_min, b_max) => [...Array(number + 1).keys()].filter(i=>number % i === 0 && b_min<=i<=b_max && i!=number && i!=1);
 
     var a_min, a_max, b_min, b_max, duration, modes;
     const operation_map= {
-        "+":add,
-        "-":subtract,
-        "×":multiply,
-        "÷":divide
+        "a1+b1":add,
+        "a1-b1":subtract,
+        "a1\\times b1":multiply,
+        "a1\\div b1":divide,
+        "\\dfrac{a1+b1}{2}": average,
+        "a1^{b1}": exponent,
+        "\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor": floor_divide,
+        "a1\\bmod b1": modp,
     };
     function load_data(data){
         a_min=data["a_min"];
@@ -31,31 +39,31 @@
         modes=[];
 
         if (data["add"]=="on"){
-            modes.push("$$a+b$$");
+            modes.push("a1+b1");
         }
         if(data["subtract"]=="on"){
-            modes.push("$$a-b$$");
+            modes.push("a1-b1");
         }
         if(data["multiply"]=="on"){
-            modes.push("$$a\times b$$");
+            modes.push("a1\\times b1");
         }
         if(data["divide"]=="on"){
-            modes.push("$$a\div b$$");
+            modes.push("a1\\div b1");
         }
         if(data["average"]=="on"){
-            modes.push("$$\dfrac{a+b}{2}$$");
+            modes.push("\\dfrac{a1+b1}{2}");
         }
         if(data["exponent"]=="on"){
-            modes.push("$$a^b$$");
+            modes.push("a1^{b1}");
         }
         if(data["pythagorean"]=="on"){
-            modes.push("$$\sqrt{a^2+b^2}$$");
+            modes.push("\\sqrt{a1^2+b1^2}");
         }
         if(data["floor division"]=="on"){
-            modes.push("$$\left\lfloor\dfrac{a}{b}\right\rfloor$$");
+            modes.push("\\left\\lfloor\\dfrac{a1}{b1}\\right\\rfloor");
         }
         if(data["mod"]=="on"){
-            modes.push("$$a\bmod b$$");
+            modes.push("a1\\bmod b1");
         }
     }
 
@@ -72,7 +80,7 @@
             b=[a, a = b][0];
         }
         var operation=modes[Math.floor(modes.length * Math.random())];
-        if(operation=="$$a\div b$$"){
+        if(operation=="a1\\div b1"){
             // ensure divisibility
             var factors=[]
             while(factors.length==0){
@@ -81,12 +89,19 @@
             }
             b=factors[getRandomInt(0, factors.length-1)];
         }
-        answer=operation_map[sign](a, b);
+        if(operation=="\\dfrac{a1+b1}{2}"){
+            if(a%2==0 && b%2==1 || a%2==1 && b%2==0){
+                a--;
+            }
+        }
+        answer=operation_map[operation](a, b);
         question_text.innerHTML = '';
         // https://mathjax.github.io/MathJax-demos-web/
         MathJax.texReset();
         var options = MathJax.getMetricsFor(question_text);
-        MathJax.tex2chtmlPromise(a+" "+operation + b + " = ", options).then(function (node) {
+        operation=operation.replace("a1", a.toString());
+        operation=operation.replace("b1", b.toString());
+        MathJax.tex2chtmlPromise(operation+ "=", options).then(function (node) {
         question_text.appendChild(node);
         MathJax.startup.document.clear();
         MathJax.startup.document.updateDocument();
