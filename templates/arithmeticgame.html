@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <head>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
+</script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <script>
     var all_pythagorean_triplets=[];
     function pythagoreanTriplets(n){
@@ -14,11 +17,12 @@
             }
         }
     }
+    var seed, rng;
     // range is inclusive
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+        return Math.floor(rng() * (max - min + 1)) + min;
     }
     let add = (a, b) => a+b;
     let subtract = (a, b) => a-b;
@@ -44,6 +48,8 @@
         "\\sqrt{a1^2+b1^2}":pythagorean,
     };
     function load_data(data){
+        seed=data["seed"];
+        rng=new Math.seedrandom(seed);
         a_min=data["a_min"];
         a_max=data["a_max"];
         b_min=data["b_min"];
@@ -94,7 +100,7 @@
             //swap the values
             b=[a, a = b][0];
         }
-        var operation=modes[Math.floor(modes.length * Math.random())];
+        var operation=modes[Math.floor(modes.length * rng())];
         if(operation=="a1\\div b1"){
             // ensure divisibility
             var factors=[]

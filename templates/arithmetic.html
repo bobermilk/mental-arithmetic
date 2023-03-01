@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
+</script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
     <div style="padding: 21px;">
     <form method="post">
-        <p>Range of a (<input type="text" name="a_min" id="range_input" value="2"> to <input type="text" name="a_max" id="range_input" value="100">)</p>
-        <p>Range of b (<input type="text" name="b_min" id="range_input" value="2"> to <input type="text" name="b_max" id="range_input" value="100">)</p>
+        <p>Game seed: <input type="text" name="seed" id="seed"></p>
+        <p>Range of a: (<input type="text" name="a_min" id="range_input" value="2"> to <input type="text" name="a_max" id="range_input" value="100">)</p>
+        <p>Range of b: (<input type="text" name="b_min" id="range_input" value="2"> to <input type="text" name="b_max" id="range_input" value="100">)</p>
             <dl style="display: inline-block;">
             <dt>
                 <label>
@@ -81,4 +84,8 @@
             <input type="submit" value="Start">
         </form>
         </div>
+
+    <script>
+        document.getElementById("seed").value=Math.random();
+    </script>
 </body>
