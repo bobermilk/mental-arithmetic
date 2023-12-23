@@ -11,5 +11,6 @@ todo:
 10. combo based scoring
 11. add time spent on each question in the final evaluation
 12. implement game server and static client
+13. time to solve each question will be displayed (like wpm graph at the end)
 
 misc: play a ding sound for correct answers
